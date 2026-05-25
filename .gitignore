@@ -1,3 +1,6 @@
+# myself
+myself/
+
 # MNIST 데이터 (다운로드/생성 파일)
 data/mnist.npz
 
@@ -31,3 +34,7 @@ htmlcov/
 *~
 
 docs/*
+scratch.py
+
+/.vscode
+/study
