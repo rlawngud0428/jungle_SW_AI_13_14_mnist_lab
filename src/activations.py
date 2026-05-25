@@ -17,6 +17,8 @@ class ReLU:
     은닉층에서 음수 값은 0으로 막고, 양수 값은 그대로 통과시킵니다.
     forward에서 만든 mask는 backward 때 "어느 위치로 gradient를 흘릴지" 결정하는 데 사용됩니다.
     """
+    def __init__(self):
+        self.mask = None
 
     def __init__(self):
         self.mask = None
@@ -31,10 +33,12 @@ class ReLU:
         """
         # TODO: x > 0 위치를 self.mask에 저장하고, 음수/0 위치는 0으로 바꾸세요.
         # raise NotImplementedError("ReLU.forward를 구현하세요.")
-        self.mask = x <= 0
+        self.mask = (x <= 0)
         out = x.copy()
         out[self.mask] = 0
+
         return out
+        
 
     def backward(self, dout):
         """
@@ -48,6 +52,7 @@ class ReLU:
         # raise NotImplementedError("ReLU.backward를 구현하세요.")
         dout[self.mask] = 0
         dx = dout
+
         return dx
 
 
@@ -70,9 +75,12 @@ class Softmax:
         # TODO: 수치 안정성을 위해 row별 max를 뺀 뒤 softmax 확률을 계산하세요.
         # 힌트: np.max(..., axis=1, keepdims=True), np.exp, np.sum을 사용합니다.
         # raise NotImplementedError("Softmax.forward를 구현하세요.")
-        x = x - np.max(x, axis=1, keepdims=True)
-        exp_x = np.exp(x)
-        return exp_x / np.sum(exp_x, axis=1, keepdims=True)
+        max = np.max(x, axis=1, keepdims=True)
+        exp_x = np.exp(x - max)
+        sum_exp_x = np.sum(exp_x, axis=1, keepdims=True)
+        y = exp_x / sum_exp_x
+
+        return y
 
     def backward(self, dout):
         """
@@ -80,5 +88,5 @@ class Softmax:
         여기서는 받은 gradient를 그대로 통과시킵니다.
         """
         # TODO: train()에서 만든 gradient를 그대로 반환하세요.
-        # raise NotImplementedError("Softmax.backward를 구현하세요.")
         return dout
+        #raise NotImplementedError("Softmax.backward를 구현하세요.")
