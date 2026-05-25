@@ -32,7 +32,10 @@ class NeuralNetwork:
         # TODO: params dict를 만들고 Affine/BatchNorm/ReLU/Dropout layer를 순서대로 구성하세요.
         # 권장 구조: 784 -> 512 -> 256 -> 10
         # self.layers는 OrderedDict로 만들고, self.grads는 params와 같은 key를 갖게 합니다.
-        raise NotImplementedError("NeuralNetwork.__init__을 구현하세요.")
+        self.params = {}
+        self.layers = OrderedDict()
+        self.layers['Affine1'] = Affine()
+        #raise NotImplementedError("NeuralNetwork.__init__을 구현하세요.")
 
     def forward(self, x, train=True):
         """
