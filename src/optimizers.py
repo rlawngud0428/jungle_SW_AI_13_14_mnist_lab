@@ -11,7 +11,7 @@ class SGD:
     가장 단순한 optimizer로, 각 파라미터를 gradient 반대 방향으로 lr만큼 이동합니다.
     """
 
-    def __init__(self, lr=0.0000000000000000000001):
+    def __init__(self, lr=0.01):
         """Args: lr: 한 번 업데이트할 때 gradient에 곱할 학습률."""
         self.lr = lr
 
@@ -59,5 +59,4 @@ class Adam:
 
             params[key] -= self.lr * m_hat / (np.sqrt(v_hat) + self.eps)
         #raise NotImplementedError("Adam.update를 구현하세요.")
-
 
