@@ -65,7 +65,6 @@ class BatchNorm:
     """
     Batch Normalization.
 
-     n
     train=True일 때는 현재 배치 통계를 쓰고, 추론 때는 누적 running_mean/running_var를 사용합니다.
     """
 
@@ -108,7 +107,7 @@ class BatchNorm:
             mu = x.mean(axis=0)
             xc = x - mu
             var = np.mean(xc**2, axis=0)
-            std = np.sqrt(var + 10e-7)
+            std = np.sqrt(var + self.eps)
             xn = xc / std
             
             self.batch_size = x.shape[0]
@@ -119,12 +118,10 @@ class BatchNorm:
             self.running_var = self.momentum * self.running_var + (1-self.momentum) * var            
         else:
             xc = x - self.running_mean
-            xn = xc / ((np.sqrt(self.running_var + 10e-7)))
+            xn = xc / np.sqrt(self.running_var + self.eps)
             
         out = self.gamma * xn + self.beta 
         return out
-        # TODO: train=False에서는 running_mean/running_var를 사용하세요.
-        # raise NotImplementedError("BatchNorm.forward를 구현하세요.")
 
     def backward(self, dout):
         """
