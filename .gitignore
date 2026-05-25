@@ -32,3 +32,6 @@ htmlcov/
 
 docs/*
 scratch.py
+
+/.vscode
+/study
