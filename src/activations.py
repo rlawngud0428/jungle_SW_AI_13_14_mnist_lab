@@ -20,6 +20,9 @@ class ReLU:
     def __init__(self):
         self.mask = None
 
+    def __init__(self):
+        self.mask = None
+
     def forward(self, x):
         """
         Args:

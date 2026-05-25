@@ -23,6 +23,9 @@ class Affine:
         """가중치 W와 편향 b를 외부 params dict와 같은 배열 객체로 공유합니다."""
         self.W = W
         self.b = b
+        self.x = None
+        self.dW = None
+        self.db = None
 
     def forward(self, x):
         """
@@ -76,9 +79,20 @@ class BatchNorm:
         self.gamma = gamma
         self.beta = beta
         self.momentum = momentum
+
+        # 시험할 때 사용할 평균과 분산
         self.running_mean = np.zeros_like(beta)
         self.running_var = np.zeros_like(beta)
         self.eps = 1e-7
+
+        # 모르는 것들
+        self.input_shape = None  # 합성곱 계층은 4차원, 완전연결 계층은 2차원
+        # backward 시 사용할 중간 데이터
+        self.batch_size = None
+        self.xc = None
+        self.std = None
+        self.dgamma = None
+        self.dbeta = None
 
     def forward(self, x, train=True):
         """
